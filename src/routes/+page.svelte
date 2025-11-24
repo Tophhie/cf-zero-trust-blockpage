@@ -96,7 +96,7 @@
                 class="mx-auto w-28 md:w-44 h-auto"
             />
             <div>
-                <h1 class="text-xl font-bold">Access restricted!</h1>
+                <h1 class="text-xl font-bold">{Config.BLOCKED_HEADER}</h1>
             </div>
             {#if siteUrl}
             <div>
@@ -104,7 +104,7 @@
             </div>
             {/if}
             <p>
-                Access to this website has been restricted. Use the contact button below to request access.
+                {Config.BLOCKED_TEXT}
             </p>
             {#if rows.length > 0}
             <button class="block w-full px-3 py-1.5 text-sm text-gray-700 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
