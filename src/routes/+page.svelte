@@ -2,6 +2,7 @@
 
 <script lang="ts">
 	import { page } from "$app/state";
+	import { Config } from "../config";
 
     $: showAddInfo = false;
 
@@ -45,6 +46,22 @@
         showAddInfo = !showAddInfo
     }
 
+
+    function sendBlockedRequestEmail(): void {
+        const subject = "Cloudflare Zero Trust - Blocked Request";
+
+        // Build body from key:value pairs
+        const body = rows
+            .map(([key, value]) => `${key}: ${value}`)
+            .join("\n");
+
+        // Encode subject and body for URI
+        const mailtoLink = `mailto:${Config.CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        // Open mail client
+        window.location.href = mailtoLink;
+    }
+
 </script>
 
 <div class="min-h-screen bg-[#100235] text-gray-100 p-4 sm:p-6 md:p-8 lg:p-12">
@@ -73,7 +90,9 @@
                 Show More Info
             </button>
 
-            <button class="block w-full px-3 py-1.5 text-sm bg-blue-700 hover:bg-blue-600 text-white rounded transition-colors whitespace-nowrap">
+            <button class="block w-full px-3 py-1.5 text-sm bg-blue-700 hover:bg-blue-600 text-white rounded transition-colors whitespace-nowrap"
+                onclick={sendBlockedRequestEmail}
+            >
                 Contact Network Administrator
             </button>
 
