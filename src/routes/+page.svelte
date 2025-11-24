@@ -2,11 +2,11 @@
 
 <script lang="ts">
 	import { page } from "$app/state";
+	import { cubicOut } from "svelte/easing";
 	import { Config } from "../config";
+    import { slide } from 'svelte/transition';
 
     $: showAddInfo = false;
-
-    $: queryParams = page.url.searchParams;
 
     $: userEmail = page.url.searchParams.get("cf_user_email") ?? null;
     $: siteUrl = page.url.searchParams.get("cf_site_uri") ?? null;
@@ -62,45 +62,64 @@
         window.location.href = mailtoLink;
     }
 
+    function goToSupportWebsite(): void {
+        if (Config.CONTACT_WEB != null || undefined) {
+            window.location.href = Config.CONTACT_WEB
+        }
+    }
+
 </script>
 
-<div class="min-h-screen bg-[#100235] text-gray-100 p-4 sm:p-6 md:p-8 lg:p-12">
-    <div class="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
+<div class="min-h-screen flex items-center justify-center text-gray-100 p-4 sm:p-6 md:p-8 lg:p-12">
+
+    {#if Config.CONTACT_WEB}
+    <button
+        class="fixed bottom-6 right-6 bg-purple-700 hover:bg-purple-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors"
+        style="cursor: pointer;"
+        onclick={goToSupportWebsite}
+        aria-label="Go to support website"
+        title="Go to support website"
+    >
+        <i class=" fa fa-solid fa-ticket fa-2x"></i>
+    </button>
+    {/if}
+
+    <div class="flex flex-col p-6 space-y-6">
         <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-10 space-y-6 text-black text-center">
             <img
                 src="https://blob.tophhie.cloud/tophhiecloud-resources/Logos/tophhiecloud-colour-padded.png"
                 height="100"
                 alt="Tophhie Social Logo"
                 id="Logo"
-                class="h-8 sm:h-15 md:h-15 w-auto mb-4 sm:mb-6 mx-auto"
+                class="mx-auto w-28 md:w-44 h-aut"
             />
             <div>
                 <h1 class="text-xl font-bold">Access restricted!</h1>
             </div>
             {#if siteUrl}
             <div>
-                <p><strong>Site:</strong> {siteUrl}</p>
+                <p><strong>Site:</strong> <em>{siteUrl}</em></p>
             </div>
             {/if}
             <p>
                 Access to this website has been restricted. Use the contact button below to request access.
             </p>
-
-            <button class="block w-full px-3 py-1.5 text-sm text-gray-600 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
-                Show More Info
+            {#if rows.length > 0}
+            <button class="block w-full px-3 py-1.5 text-sm text-gray-700 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
+                Show Details
             </button>
 
-            <button class="block w-full px-3 py-1.5 text-sm bg-blue-700 hover:bg-blue-600 text-white rounded transition-colors whitespace-nowrap"
+            <button class="block w-full px-3 py-1.5 text-sm bg-[#100235] hover:bg-indigo-900 text-white font-bold rounded-3xl transition-colors whitespace-nowrap"
                 onclick={sendBlockedRequestEmail}
             >
-                Contact Network Administrator
+                Request Access
             </button>
-
+            {/if}
         </div>
 
         <!-- Additional Information Box -->
         {#if showAddInfo}
-        <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-center text-sm">
+        <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-center text-sm" transition:slide={{ duration: 500, easing: cubicOut }}>
             <dl class="space-y-2">
                 {#each rows as [label, value]}
                 <div class="flex justify-between">
