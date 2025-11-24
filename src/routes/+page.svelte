@@ -8,9 +8,10 @@
 
     $: showAddInfo = false;
 
+    // Extract query params
     $: userEmail = page.url.searchParams.get("cf_user_email") ?? null;
     $: siteUrl = page.url.searchParams.get("cf_site_uri") ?? null;
-    $: categories = page.url.searchParams.get("cf_request_categories") ?? null;
+    $: categories = page.url.searchParams.getAll("cf_request_category_names");
     $: referer = page.url.searchParams.get("cf_referer") ?? null;
     $: ruleId = page.url.searchParams.get("cf_rule_id") ?? null;
     $: sourceIp = page.url.searchParams.get("cf_source_ip") ?? null;
@@ -26,7 +27,7 @@
     $: rawRows = [
         ["User Email", userEmail],
         ["Site", siteUrl],
-        ["Categories", categories],
+        ["Categories", categories.length ? categories.join(", ") : null], // join multiple categories
         ["Referer", referer],
         ["Rule ID", ruleId],
         ["Source IP", sourceIp],
@@ -39,8 +40,9 @@
         ["Request ID", reqId]
     ];
 
-    // Only keep rows where value is not null/empty/whitespace
+    // Filter out empty/null values
     $: rows = rawRows.filter(([_, v]) => v !== null && String(v).trim() !== "");
+
 
     function showAdditionalInfo() {
         showAddInfo = !showAddInfo
