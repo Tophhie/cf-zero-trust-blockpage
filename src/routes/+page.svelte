@@ -120,10 +120,10 @@
         <!-- Additional Information Box -->
         {#if showAddInfo}
         <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-center text-sm" transition:slide={{ duration: 500, easing: cubicOut }}>
-            <dl class="space-y-2">
+            <dl class="space-y-2 text-left">
                 {#each rows as [label, value]}
-                <div class="flex justify-between">
-                    <dt class="font-semibold text-gray-700">{label}:</dt>
+                <div class="">
+                    <dt class="font-semibold text-gray-700 w-25">{label}</dt>
                     <dd class="text-gray-900 break-all">{value}</dd>
                 </div>
                 {/each}
