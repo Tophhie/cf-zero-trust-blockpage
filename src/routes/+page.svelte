@@ -91,7 +91,7 @@
                 height="100"
                 alt="Tophhie Social Logo"
                 id="Logo"
-                class="mx-auto w-28 md:w-44 h-aut"
+                class="mx-auto w-28 md:w-44 h-auto"
             />
             <div>
                 <h1 class="text-xl font-bold">Access restricted!</h1>
@@ -119,16 +119,18 @@
 
         <!-- Additional Information Box -->
         {#if showAddInfo}
-        <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-center text-sm" transition:slide={{ duration: 500, easing: cubicOut }}>
+
+            <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-sm" transition:slide={{ duration: 500, easing: cubicOut }}>
             <dl class="space-y-2 text-left">
                 {#each rows as [label, value]}
-                <div class="">
-                    <dt class="font-semibold text-gray-700 w-25">{label}</dt>
-                    <dd class="text-gray-900 break-all">{value}</dd>
+                <div class="sm:flex sm:justify-between">
+                    <dt class="font-semibold text-gray-700 sm:w-32 sm:whitespace-nowrap">{label}:</dt>
+                    <dd class="text-gray-900 break-all sm:text-right">{value}</dd>
                 </div>
                 {/each}
             </dl>
-        </div>
+            </div>
+
         {/if}
     </div>
 </div>
