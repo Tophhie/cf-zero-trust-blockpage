@@ -1,7 +1,5 @@
 name = "cf-zero-trust-blockpage"
 compatibility_date = "2025-11-25"
-
-[workers-urls]
 workers_dev = false
 preview_urls = false
 
