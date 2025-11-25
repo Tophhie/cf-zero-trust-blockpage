@@ -7,6 +7,7 @@
     import { slide } from 'svelte/transition';
 
     $: showAddInfo = false;
+    $: detailButtonTxt = showAddInfo ? "Hide Details" : "Show Details"
 
     // Extract query params
     $: userEmail = page.url.searchParams.get("cf_user_email") ?? null;
@@ -109,7 +110,7 @@
             </p>
             {#if rows.length > 0}
             <button class="block w-full px-3 py-1.5 text-sm text-gray-700 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
-                Show Details
+                {detailButtonTxt}
             </button>
 
             <button class="block w-full px-3 py-1.5 text-sm bg-[#100235] hover:bg-indigo-900 text-white font-bold rounded-3xl transition-colors whitespace-nowrap"
