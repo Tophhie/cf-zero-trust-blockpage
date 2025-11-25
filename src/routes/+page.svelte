@@ -108,7 +108,7 @@
             <p>
                 {Config.BLOCKED_TEXT}
             </p>
-            {#if rows.length > 0}
+            {#if rows.length > 0 && rows.some(([label]) => label != "Date/Time")}
             <button class="block w-full px-3 py-1.5 text-sm text-gray-700 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
                 {detailButtonTxt}
             </button>
