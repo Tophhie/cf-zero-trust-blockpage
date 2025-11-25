@@ -93,6 +93,8 @@ VITE_CONTACT_BUTTON_TXT=Request access
 - **Details Panel**:  
   Slides open to show request metadata (IP, rule ID, device ID, etc.).
 
+![Screenshot of the Tophhie Cloud Cloudflare Zero Trust block page.](https://public-blob.tophhie.cloud/ImageResources/cf-block-page.png)
+
 ---
 
 ## 🛠️ Tech Stack
