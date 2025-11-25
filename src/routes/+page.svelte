@@ -25,6 +25,7 @@
 
     // Build label/value pairs
     $: rawRows = [
+        ["Date/Time", new Date().toLocaleString()],
         ["User Email", userEmail],
         ["Site", siteUrl],
         ["Categories", categories.length ? categories.join(", ") : null], // join multiple categories
