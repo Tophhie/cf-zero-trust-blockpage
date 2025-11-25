@@ -116,7 +116,7 @@
             <button class="block w-full px-3 py-1.5 text-sm bg-[#100235] hover:bg-indigo-900 text-white font-bold rounded-3xl transition-colors whitespace-nowrap"
                 onclick={sendBlockedRequestEmail}
             >
-                Request Access
+                {Config.CONTACT_BUTTON_TXT}
             </button>
             {/if}
         </div>

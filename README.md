@@ -42,6 +42,7 @@ export class Config {
     static readonly CONTACT_WEB: string = "https://support.tophhie.cloud";
     static readonly BLOCKED_HEADER: string = "Access restricted!";
     static readonly BLOCKED_TEXT: string = "Access to this website is restricted. Use the contact button below to request access.";
+    static readonly CONTACT_BUTTON_TXT: string = "Request access";
 }
 ```
 
@@ -78,6 +79,9 @@ If you prefer dynamic configuration, you can replace `Config.ts` with environmen
 ```env
 VITE_CONTACT_EMAIL=help@tophhie.cloud
 VITE_CONTACT_WEB=https://support.tophhie.cloud
+VITE_BLOCKED_HEADER=Access restricted!
+VITE_BLOCKED_TEXT=Access to this website is restricted. Use the contact button below to request access.
+VITE_CONTACT_BUTTON_TXT=Request access
 ```
 
 ---
@@ -106,7 +110,7 @@ The page reads Cloudflare query params like:
 ```
 cf_user_email
 cf_site_uri
-cf_request_categories
+cf_request_category_names
 cf_rule_id
 cf_source_ip
 cf_device_id
