@@ -17,7 +17,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-size: cover;
   background-position: center;
-  background-image: url('https://blob.tophhie.cloud/tophhiecloud-resources/Logos/illustration.png');
+  background-image: url('https://public-blob.tophhie.cloud/logos/illustration.png');
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
