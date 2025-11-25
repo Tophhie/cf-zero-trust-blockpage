@@ -42,6 +42,7 @@ export class Config {
     static readonly CONTACT_WEB: string = "https://support.tophhie.cloud";
     static readonly BLOCKED_HEADER: string = "Access restricted!";
     static readonly BLOCKED_TEXT: string = "Access to this website is restricted. Use the contact button below to request access.";
+    static readonly BLOCKED_TEXT_NOMETA: string = "Access to this website is restricted."
     static readonly CONTACT_BUTTON_TXT: string = "Request access";
 }
 ```
@@ -81,6 +82,7 @@ VITE_CONTACT_EMAIL=help@tophhie.cloud
 VITE_CONTACT_WEB=https://support.tophhie.cloud
 VITE_BLOCKED_HEADER=Access restricted!
 VITE_BLOCKED_TEXT=Access to this website is restricted. Use the contact button below to request access.
+VITE_BLOCKED_TEXT_NOMETA=Access to this website is restricted.
 VITE_CONTACT_BUTTON_TXT=Request access
 ```
 

@@ -50,6 +50,10 @@
         showAddInfo = !showAddInfo
     }
 
+    function metadataAvailable(): boolean {
+        return rows.length > 0 && rows.some(([label]) => label != "Date/Time")
+    }
+
 
     function sendBlockedRequestEmail(): void {
         const subject = "Cloudflare Zero Trust - Blocked Request";
@@ -106,9 +110,13 @@
             </div>
             {/if}
             <p>
+                {#if metadataAvailable()}
                 {Config.BLOCKED_TEXT}
+                {:else}
+                {Config.BLOCKED_TEXT_NOMETA}
+                {/if}
             </p>
-            {#if rows.length > 0 && rows.some(([label]) => label != "Date/Time")}
+            {#if metadataAvailable()}
             <button class="block w-full px-3 py-1.5 text-sm text-gray-700 rounded transition-colors" style="cursor: pointer;" onclick={showAdditionalInfo}>
                 {detailButtonTxt}
             </button>
