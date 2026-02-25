@@ -7,7 +7,7 @@
     import { slide } from 'svelte/transition';
 
     $: showAddInfo = false;
-    $: detailButtonTxt = showAddInfo ? "Hide Details" : "Show Details"
+    $: detailButtonTxt = showAddInfo ? "Hide Info" : "More Info"
 
     // Extract query params
     $: userEmail = page.url.searchParams.get("cf_user_email") ?? null;
@@ -102,11 +102,20 @@
                 class="mx-auto w-28 md:w-44 h-auto"
             />
             <div>
-                <h1 class="text-xl font-bold">{Config.BLOCKED_HEADER}</h1>
+                <h1 class="text-xl font-bold" style="padding-bottom: 12pt;">{Config.BLOCKED_HEADER}</h1>
+                <i class="fa fa-solid fa-ban" style="font-size:80px; color: #B91C1C;"></i>
             </div>
             {#if siteUrl}
             <div>
-                <p><strong>Site:</strong> <em>{siteUrl}</em></p>
+                <table width="100%" style="width: 100%; background-color: rgb(249, 250, 251); border: 1px solid rgb(238, 240, 242); border-radius: 6px; max-width: 100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 14px 16px; font-family: Arial, Helvetica, sans-serif; color: rgb(17, 24, 39)">
+                                <div style="line-height: 20px; margin: 0; color: #B91C1C"><b>{siteUrl}</b></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             {/if}
             <p>
@@ -131,7 +140,6 @@
 
         <!-- Additional Information Box -->
         {#if showAddInfo}
-
             <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-6 space-y-6 text-black text-sm" transition:slide={{ duration: 500, easing: cubicOut }}>
             <dl class="space-y-2 text-left">
                 {#each rows as [label, value]}
