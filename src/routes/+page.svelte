@@ -17,7 +17,7 @@
     $: ruleId = page.url.searchParams.get("cf_rule_id") ?? null;
     $: sourceIp = page.url.searchParams.get("cf_source_ip") ?? null;
     $: deviceId = page.url.searchParams.get("cf_device_id") ?? null;
-    $: appNames = page.url.searchParams.get("cf_application_name") ?? null;
+    $: appNames = page.url.searchParams.get("cf_application_names") ?? null;
     $: filter = page.url.searchParams.get("cf_filter") ?? null;
     $: accountId = page.url.searchParams.get("cf_account_id") ?? null;
     $: queryId = page.url.searchParams.get("cf_query_id") ?? null;
