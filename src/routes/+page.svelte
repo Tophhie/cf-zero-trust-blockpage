@@ -99,23 +99,22 @@
                 height="100"
                 alt="Tophhie Social Logo"
                 id="Logo"
-                class="mx-auto w-28 md:w-44 h-auto"
+                class="mx-auto w-45 h-auto"
             />
             <div>
                 <h1 class="text-xl font-bold" style="padding-bottom: 12pt;">{Config.BLOCKED_HEADER}</h1>
                 <i class="fa fa-solid fa-ban" style="font-size:80px; color: #B91C1C;"></i>
             </div>
             {#if siteUrl}
-            <div>
-                <table width="100%" style="width: 100%; background-color: rgb(249, 250, 251); border: 1px solid rgb(238, 240, 242); border-radius: 6px; max-width: 100%" cellspacing="0" cellpadding="0" border="0">
-                    <tbody>
-                        <tr>
-                            <td style="padding: 14px 16px; font-family: Arial, Helvetica, sans-serif; color: rgb(17, 24, 39)">
-                                <div style="line-height: 20px; margin: 0; color: #B91C1C"><b>{siteUrl}</b></div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div style="border: 1px solid rgb(238, 240, 242); border-radius: 25px; overflow: hidden; max-width: 100%; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);">                    <table width="100%" style="width: 100%; background-color: rgb(249, 250, 251); max-width: 100%; border-collapse: collapse;" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td style="padding: 14px 16px; font-family: Arial, Helvetica, sans-serif; color: rgb(17, 24, 39);">
+                            <div style="line-height: 20px; margin: 0; color: #B91C1C"><b>{siteUrl}</b></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
             {/if}
             <p>

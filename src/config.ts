@@ -12,7 +12,7 @@ export class Config {
     /**
      * Block page header text
      */
-    static readonly BLOCKED_HEADER: string = "You can't access this destination";
+    static readonly BLOCKED_HEADER: string = "You can't access this destination!";
 
     /**
      * Block page detail text (if Cloudflare metadata is provided)
