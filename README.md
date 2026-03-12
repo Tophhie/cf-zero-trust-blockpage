@@ -38,6 +38,7 @@ Edit `config.ts` to set your support details and required blocked text:
 
 ```ts
 export class Config {
+    static readonly HEADER_LOGO_URL: string = "https://public-blob.tophhie.cloud/logos/tophhiecloud-colour-padded.png"
     static readonly CONTACT_EMAIL: string = "help@tophhie.cloud";
     static readonly CONTACT_WEB: string = "https://support.tophhie.cloud";
     static readonly BLOCKED_HEADER: string = "Access restricted!";

@@ -95,9 +95,9 @@
     <div class="flex flex-col p-6 space-y-6">
         <div class="bg-white shadow-xl rounded-2xl max-w-lg w-full p-10 space-y-6 text-black text-center">
             <img
-                src="https://blob.tophhie.cloud/tophhiecloud-resources/Logos/tophhiecloud-colour-padded.png"
+                src={Config.HEADER_LOGO_URL}
                 height="100"
-                alt="Tophhie Social Logo"
+                alt="Tophhie Cloud Logo"
                 id="Logo"
                 class="mx-auto w-45 h-auto"
             />

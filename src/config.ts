@@ -1,5 +1,10 @@
 export class Config {
     /**
+     * Header logo
+     */
+    static readonly HEADER_LOGO_URL: string = "https://public-blob.tophhie.cloud/logos/tophhiecloud-colour-padded.png";
+
+    /**
      * The contact support email address.
      */
     static readonly CONTACT_EMAIL: string = "help@tophhie.cloud";
