@@ -95,7 +95,7 @@
 			</div>
 			{#if siteUrl}
 			<div class="border border-gray-200 rounded-3xl overflow-hidden shadow-sm">
-				<div class="bg-gray-50 px-4 py-3 text-left">
+				<div class="bg-gray-50 px-4 py-3 text-center">
 					<p class="text-red-700 font-bold break-all">{siteUrl}</p>
 				</div>
 			</div>
