@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 /* Global variables */
@@ -15,47 +16,20 @@ body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Blurred background image via pseudo-element.
+   backdrop-filter on body does not blur its own background-image. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('https://public-blob.tophhie.cloud/logos/illustration.png');
   background-size: cover;
   background-position: center;
-  background-image: url('https://public-blob.tophhie.cloud/logos/illustration.png');
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-/* Header */
-header {
-  background: var(--primary-color);
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  font-size: 1.5rem;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-/* Status card container (basic fallback if needed) */
-.status-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 50%;
-}
-
-/* Status colours */
-.status-online {
-  color: var(--success-color);
-}
-
-.status-offline {
-  color: var(--error-color);
+  filter: blur(4px);
+  transform: scale(1.05); /* Prevents blur edge artifacts */
+  z-index: -1;
 }
 
 /* Mobile optimizations */
@@ -65,15 +39,10 @@ footer {
     min-height: 44px;
     min-width: 44px;
   }
-  
-  /* Prevent text from being too small */
+
+  /* Prevent text from being too small on iOS */
   body {
-    font-size: 16px; /* Prevents iOS zoom on input focus */
-  }
-  
-  /* Better touch scrolling */
-  * {
-    -webkit-overflow-scrolling: touch;
+    font-size: 16px;
   }
 }
 
