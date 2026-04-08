@@ -27,7 +27,7 @@ export class Config {
     /**
      * Block page detail text (if no Cloudflare metadata is provided)
      */
-    static readonly BLOCKED_TEXT_NOMETA = "Access has been restricted. No website information has been supplied.";
+    static readonly BLOCKED_TEXT_NOMETA: string = "Access has been restricted. No website information has been supplied.";
 
     /**
      * Contact email button text
