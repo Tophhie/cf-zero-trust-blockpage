@@ -1,0 +1,2178 @@
+/* ------------------------------------------------------------------
+   VENDORED FROM THE TOPHHIE CLOUD DESIGN SYSTEM — do not hand-edit.
+   Source: claude.ai/design project "Tophhie Cloud Design System"
+           (colors_and_type.css). To update, re-copy that file here.
+   This page (cf-block.tophhie.cloud) is the design system's production
+   reference for the .tc-glass-modal / .tc-glass-fab components.
+   ------------------------------------------------------------------ */
+/* Version: 1.3.2 — global box-sizing:border-box reset (fixes .tc-nav-item active-pill overflow inside .tc-sidebar); 1.3.1 — brand-logo swap now follows prefers-color-scheme + works on themed subtrees; 1.3.0 — auto light/dark via prefers-color-scheme (data-theme still overrides); 1.2.0 — dark mode rebased on neutral black/grey; purple (#100235 & brand pinks) now accent-only */
+/* Version: 1.1.0 — dark --fill-1/--fill-2 self-reference fixed; --divider/--border-subtle un-aliased; subtree theming enabled */
+/* ============================================================
+   TOPHHIE CLOUD — Design System Tokens
+   colors_and_type.css
+   ============================================================ */
+
+/* --- Google Font Imports ----------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --- Box-sizing reset -------------------------------------- */
+/* width:100% + padding/border components (nav items, inputs, cards,
+   buttons) rely on border-box so they fill their slot without
+   overflowing. Kept global so consumers get it for free. */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+
+  /* ==========================================================
+     COLORS — Brand
+     ========================================================== */
+
+  --color-brand-pink:        #E8005A;   /* Primary CTA / icon highlight */
+  --color-brand-pink-light:  #FF2E7A;   /* Hover / lighter tint */
+  --color-brand-pink-dim:    #B3004A;   /* Pressed / darker shade */
+  --color-brand-purple:      #8B0060;   /* Icon depth dots / secondary accent */
+  --color-brand-magenta:     #C4004E;   /* Mid-tone bridging pink ↔ purple */
+
+  /* ==========================================================
+     COLORS — Backgrounds & Surfaces
+     ========================================================== */
+
+  /* Brand-deep — the original #100235 backdrop, now reserved as a DEEP
+     PURPLE ACCENT (CTA buttons, profile banner) rather than the page base. */
+  --color-brand-deep:        #100235;
+
+  --color-bg:                #121212;   /* Primary page background (neutral) */
+  --color-bg-elevated:       #1C1C1E;   /* Cards, panels */
+  --color-bg-subtle:         #2A2A2C;   /* Hover fills, secondary surfaces */
+  --color-bg-overlay:        rgba(0, 0, 0, 0.80); /* Modal backdrops */
+  --color-bg-circle:         #1C1C1E;   /* Decorative background circles */
+
+  /* ==========================================================
+     COLORS — Foreground / Text
+     ========================================================== */
+
+  --color-fg-primary:        #FFFFFF;
+  --color-fg-secondary:      rgba(255, 255, 255, 0.65);
+  --color-fg-tertiary:       rgba(255, 255, 255, 0.35);
+  --color-fg-disabled:       rgba(255, 255, 255, 0.20);
+  --color-fg-on-light:       #404040;   /* Wordmark charcoal on light backgrounds */
+
+  /* ==========================================================
+     COLORS — Borders
+     ========================================================== */
+
+  --color-border:            rgba(255, 255, 255, 0.10);
+  --color-border-strong:     rgba(255, 255, 255, 0.18);
+  --color-border-brand:      rgba(232, 0, 90, 0.35); /* confirmed from production */
+
+  /* ==========================================================
+     PRODUCTION TOKEN ALIASES
+     Short-name vars used in production React/TSX code.
+     These map 1-to-1 to the long-form tokens above and are
+     the canonical way to reference tokens inside inline styles
+     and component stylesheets.
+     ========================================================== */
+
+  /* Backgrounds — neutral black/grey base; purple is reserved for accents. */
+  --bg:           #121212;             /* = --color-bg */
+  --surface:      #1C1C1E;             /* = --color-bg-elevated */
+  --surface-hi:   #2A2A2C;             /* = --color-bg-subtle */
+  --brand-deep:   #100235;             /* = --color-brand-deep (deep purple accent) */
+
+  /* App-shell surfaces (theme-flipping) — neutral dark frost in dark mode,
+     translucent white in light mode. */
+  --sidebar-bg:   rgba(24, 24, 26, 0.55);  /* frosted sidebar panel */
+  --header-bg:    rgba(20, 20, 22, 0.65);  /* frosted header bar */
+  --nav-solid:    #1A1A1C;                  /* opaque sidebar (.is-nav / mobile) */
+  --app-backdrop: #0D0D0D;                  /* html/body behind the shell */
+
+  /* Interaction fills & dividers (theme-flipping) — these REPLACE bare
+     rgba(255,255,255,x) in component rules so everything adapts to light
+     mode. Dark = white-on-dark; light = brand-navy-on-light. */
+  --fill-1:        rgba(255,255,255,0.04);  /* subtle hover / faint surface */
+  --fill-2:        rgba(255,255,255,0.06);  /* input bg, secondary button */
+  --fill-3:        rgba(255,255,255,0.09);  /* pills, strong hover */
+  --divider:       rgba(255,255,255,0.07);  /* hairline row/section dividers */
+  --border-subtle: rgba(255,255,255,0.08);  /* soft borders (sidebar, thead) */
+  --scroll-thumb:       rgba(255,255,255,0.12);
+  --scroll-thumb-hover: rgba(255,255,255,0.22);
+
+  /* Borders */
+  --border:       rgba(255,255,255,0.10);   /* = --color-border */
+  --border-hi:    rgba(255,255,255,0.18);   /* = --color-border-strong */
+
+  /* Text */
+  --text:         rgba(255,255,255,0.65);   /* = --color-fg-secondary */
+  --text-dim:     rgba(255,255,255,0.35);   /* = --color-fg-tertiary */
+  --text-hi:      #ffffff;                  /* = --color-fg-primary */
+
+  /* Accent (brand pink) */
+  --accent:       #E8005A;
+  --accent-lo:    rgba(232,0,90,0.12);
+  --accent-border:rgba(232,0,90,0.35);
+
+  /* Semantic */
+  --green:        #22C55E;
+  --green-lo:     rgba(34,197,94,0.12);
+  --green-border: rgba(34,197,94,0.30);
+  --green-text:   #4ADE80;            /* on-dark filled-button text */
+  --red:          #EF4444;
+  --red-lo:       rgba(239,68,68,0.12);
+  --red-border:   rgba(239,68,68,0.30);
+  --red-text:     #F87171;            /* on-dark filled-button text */
+  --amber:        #F59E0B;
+  --amber-lo:     rgba(245,158,11,0.12);
+  --amber-border: rgba(245,158,11,0.30);
+  --amber-text:   #FCD34D;            /* on-dark filled-button text */
+  --blue:         #3B82F6;
+  --blue-lo:      rgba(59,130,246,0.12);
+  --blue-border:  rgba(59,130,246,0.30);
+  --blue-text:    #93C5FD;            /* on-dark filled-button text */
+
+  /* Alert body text — high-contrast, theme-flipping (light 200-level on
+     dark tints; dark 700-level on light tints). */
+  --alert-danger-text:  #FECDD3;
+  --alert-success-text: #BBF7D0;
+  --alert-warning-text: #FDE68A;
+  --alert-info-text:    #BFDBFE;
+
+  /* Radius — single standard value; use --radius-* for finer control */
+  --radius:       8px;                 /* = --radius-md */
+
+  /* Font families (short aliases) */
+  --display: 'Nunito', sans-serif; /* @kind other */
+  --sans: 'DM Sans', 'Inter', sans-serif; /* @kind other */
+  --mono: 'JetBrains Mono', 'Fira Code', monospace; /* @kind other */
+
+  /* ==========================================================
+     COLORS — Semantic / Status
+     ========================================================== */
+
+  --color-success:           #22C55E;
+  --color-success-bg:        rgba(34, 197, 94, 0.12);
+  --color-warning:           #F59E0B;
+  --color-warning-bg:        rgba(245, 158, 11, 0.12);
+  --color-danger:            #EF4444;
+  --color-danger-bg:         rgba(239, 68, 68, 0.12);
+  --color-info:              #3B82F6;
+  --color-info-bg:           rgba(59, 130, 246, 0.12);
+
+  /* ==========================================================
+     TYPOGRAPHY — Font Families
+     ========================================================== */
+
+  --font-display:   'Nunito', 'Varela Round', sans-serif;
+  --font-body:      'DM Sans', 'Inter', sans-serif;
+  --font-mono:      'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ==========================================================
+     TYPOGRAPHY — Scale (rem-based, base 16px)
+     ========================================================== */
+
+  --text-xs:    0.75rem;    /*  12px */
+  --text-sm:    0.875rem;   /*  14px */
+  --text-base:  1rem;       /*  16px */
+  --text-md:    1.125rem;   /*  18px */
+  --text-lg:    1.25rem;    /*  20px */
+  --text-xl:    1.5rem;     /*  24px */
+  --text-2xl:   1.875rem;   /*  30px */
+  --text-3xl:   2.25rem;    /*  36px */
+  --text-4xl:   3rem;       /*  48px */
+  --text-5xl:   4rem;       /*  64px */
+
+  /* ==========================================================
+     TYPOGRAPHY — Line Heights
+     ========================================================== */
+
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* ==========================================================
+     TYPOGRAPHY — Letter Spacing
+     ========================================================== */
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-widest:  0.15em;
+
+  /* ==========================================================
+     SPACING — Base 4px scale
+     ========================================================== */
+
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ==========================================================
+     BORDER RADIUS
+     ========================================================== */
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ==========================================================
+     SHADOWS / ELEVATION
+     ========================================================== */
+
+  --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.30);
+  --shadow-md:   0 4px 16px rgba(0, 0, 0, 0.40);
+  --shadow-lg:   0 8px 32px rgba(0, 0, 0, 0.50);
+  --shadow-2xl:  0 25px 50px -12px rgba(0, 0, 0, 0.40);   /* glass modal drop shadow */
+  --shadow-glow-brand: 0 0 24px rgba(232, 0, 90, 0.25);
+  --shadow-inset-brand: inset 0 0 0 1px rgba(232, 0, 90, 0.30);
+
+  /* ==========================================================
+     GLASS — Frosted surface tokens
+     Used by .tc-glass, .tc-glass-modal, .tc-glass-fab.
+     Production reference: cf-block.tophhie.cloud
+     ========================================================== */
+
+  --glass-bg:        rgba(255, 255, 255, 0.10);
+  --glass-bg-hover:  rgba(255, 255, 255, 0.20);
+  --glass-border:    rgba(255, 255, 255, 0.20);
+  --blur-glass:      24px;   /* card / modal backdrop-filter */
+  --blur-glass-sm:    8px;   /* FAB / small element backdrop-filter */
+  --blur-bg:          4px;   /* background-illustration blur */
+
+  /* ==========================================================
+     ANIMATION
+     ========================================================== */
+
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);     /* @kind other */
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);      /* @kind other */
+  /* --ease-overshoot: gentle bounce on modal entrance */
+  --ease-overshoot:  cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --duration-fast:   150ms;   /* @kind other */
+  --duration-base:   200ms;   /* @kind other */
+  --duration-slow:   300ms;   /* @kind other */
+  --duration-modal:  250ms;   /* @kind other */
+}
+
+/* ==========================================================
+   THEMES
+   Dark is the default (bare :root). Apps that never set
+   data-theme automatically follow the OS via the
+   prefers-color-scheme block below. Setting data-theme
+   ("light" or "dark") on <html> — or any container to theme
+   a subtree — always overrides the system preference. Only
+   the theme-flipping tokens are overridden; scale, spacing,
+   radius, brand hues and semantic colors stay identical.
+   ========================================================== */
+:root { color-scheme: dark; }
+
+@media (prefers-color-scheme: light) {
+  /* Apps that never set data-theme follow the OS. */
+  :root {
+  color-scheme: light;
+
+  --color-bg:            #F4F2FA;
+  --color-bg-elevated:   #FFFFFF;
+  --color-bg-subtle:     #ECE7F6;
+  --color-bg-overlay:    rgba(16, 2, 53, 0.40);
+  --color-bg-circle:     #EAE4F6;
+
+  --color-fg-primary:    #100235;
+  --color-fg-secondary:  rgba(16, 2, 53, 0.70);
+  --color-fg-tertiary:   rgba(16, 2, 53, 0.45);
+  --color-fg-disabled:   rgba(16, 2, 53, 0.25);
+
+  --color-border:        rgba(16, 2, 53, 0.10);
+  --color-border-strong: rgba(16, 2, 53, 0.16);
+
+  --bg:           #F4F2FA;
+  --surface:      #FFFFFF;
+  --surface-hi:   #ECE7F6;
+
+  --sidebar-bg:   rgba(255, 255, 255, 0.72);
+  --header-bg:    rgba(255, 255, 255, 0.72);
+  --nav-solid:    #FFFFFF;
+  --app-backdrop: #ECE8F5;
+
+  --fill-1:        rgba(16, 2, 53, 0.04);
+  --fill-2:        rgba(16, 2, 53, 0.055);
+  --fill-3:        rgba(16, 2, 53, 0.08);
+  --divider:       rgba(16, 2, 53, 0.08);
+  --border-subtle: rgba(16, 2, 53, 0.09);
+  --scroll-thumb:       rgba(16, 2, 53, 0.18);
+  --scroll-thumb-hover: rgba(16, 2, 53, 0.30);
+
+  --border:       rgba(16, 2, 53, 0.10);
+  --border-hi:    rgba(16, 2, 53, 0.16);
+  --text:         rgba(16, 2, 53, 0.70);
+  --text-dim:     rgba(16, 2, 53, 0.45);
+  --text-hi:      #100235;
+
+  --accent-lo:    rgba(232, 0, 90, 0.10);
+
+  --glass-bg:       rgba(255, 255, 255, 0.55);
+  --glass-bg-hover: rgba(255, 255, 255, 0.72);
+  --glass-border:   rgba(16, 2, 53, 0.12);
+
+  --shadow-sm:  0 1px 3px rgba(16, 2, 53, 0.08);
+  --shadow-md:  0 4px 16px rgba(16, 2, 53, 0.10);
+  --shadow-lg:  0 8px 32px rgba(16, 2, 53, 0.14);
+  --shadow-2xl: 0 25px 50px -12px rgba(16, 2, 53, 0.18);
+
+  --alert-danger-text:  #9F1239;
+  --alert-success-text: #166534;
+  --alert-warning-text: #92400E;
+  --alert-info-text:    #1E40AF;
+  }
+}
+
+:root[data-theme="light"], [data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg:            #F4F2FA;
+  --color-bg-elevated:   #FFFFFF;
+  --color-bg-subtle:     #ECE7F6;
+  --color-bg-overlay:    rgba(16, 2, 53, 0.40);
+  --color-bg-circle:     #EAE4F6;
+
+  --color-fg-primary:    #100235;
+  --color-fg-secondary:  rgba(16, 2, 53, 0.70);
+  --color-fg-tertiary:   rgba(16, 2, 53, 0.45);
+  --color-fg-disabled:   rgba(16, 2, 53, 0.25);
+
+  --color-border:        rgba(16, 2, 53, 0.10);
+  --color-border-strong: rgba(16, 2, 53, 0.16);
+
+  --bg:           #F4F2FA;
+  --surface:      #FFFFFF;
+  --surface-hi:   #ECE7F6;
+
+  --sidebar-bg:   rgba(255, 255, 255, 0.72);
+  --header-bg:    rgba(255, 255, 255, 0.72);
+  --nav-solid:    #FFFFFF;
+  --app-backdrop: #ECE8F5;
+
+  --fill-1:        rgba(16, 2, 53, 0.04);
+  --fill-2:        rgba(16, 2, 53, 0.055);
+  --fill-3:        rgba(16, 2, 53, 0.08);
+  --divider:       rgba(16, 2, 53, 0.08);
+  --border-subtle: rgba(16, 2, 53, 0.09);
+  --scroll-thumb:       rgba(16, 2, 53, 0.18);
+  --scroll-thumb-hover: rgba(16, 2, 53, 0.30);
+
+  --border:       rgba(16, 2, 53, 0.10);
+  --border-hi:    rgba(16, 2, 53, 0.16);
+  --text:         rgba(16, 2, 53, 0.70);
+  --text-dim:     rgba(16, 2, 53, 0.45);
+  --text-hi:      #100235;
+
+  --accent-lo:    rgba(232, 0, 90, 0.10);
+
+  --glass-bg:       rgba(255, 255, 255, 0.55);
+  --glass-bg-hover: rgba(255, 255, 255, 0.72);
+  --glass-border:   rgba(16, 2, 53, 0.12);
+
+  --shadow-sm:  0 1px 3px rgba(16, 2, 53, 0.08);
+  --shadow-md:  0 4px 16px rgba(16, 2, 53, 0.10);
+  --shadow-lg:  0 8px 32px rgba(16, 2, 53, 0.14);
+  --shadow-2xl: 0 25px 50px -12px rgba(16, 2, 53, 0.18);
+
+  --alert-danger-text:  #9F1239;
+  --alert-success-text: #166534;
+  --alert-warning-text: #92400E;
+  --alert-info-text:    #1E40AF;
+}
+
+/* Explicit dark override — wins over prefers-color-scheme:light. */
+:root[data-theme="dark"], [data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #121212;
+  --color-bg-elevated: #1C1C1E;
+  --color-bg-subtle: #2A2A2C;
+  --color-bg-overlay: rgba(0, 0, 0, 0.80);
+  --color-bg-circle: #1C1C1E;
+  --color-fg-primary: #FFFFFF;
+  --color-fg-secondary: rgba(255, 255, 255, 0.65);
+  --color-fg-tertiary: rgba(255, 255, 255, 0.35);
+  --color-fg-disabled: rgba(255, 255, 255, 0.20);
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+  --bg: #121212;
+  --surface: #1C1C1E;
+  --surface-hi: #2A2A2C;
+  --sidebar-bg: rgba(24, 24, 26, 0.55);
+  --header-bg: rgba(20, 20, 22, 0.65);
+  --nav-solid: #1A1A1C;
+  --app-backdrop: #0D0D0D;
+  --fill-1: rgba(255,255,255,0.04);
+  --fill-2: rgba(255,255,255,0.06);
+  --fill-3: rgba(255,255,255,0.09);
+  --divider: rgba(255,255,255,0.07);
+  --border-subtle: rgba(255,255,255,0.08);
+  --scroll-thumb: rgba(255,255,255,0.12);
+  --scroll-thumb-hover: rgba(255,255,255,0.22);
+  --border: rgba(255,255,255,0.10);
+  --border-hi: rgba(255,255,255,0.18);
+  --text: rgba(255,255,255,0.65);
+  --text-dim: rgba(255,255,255,0.35);
+  --text-hi: #ffffff;
+  --accent-lo: rgba(232,0,90,0.12);
+  --glass-bg: rgba(255, 255, 255, 0.10);
+  --glass-bg-hover: rgba(255, 255, 255, 0.20);
+  --glass-border: rgba(255, 255, 255, 0.20);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.40);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.50);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.40);
+  --alert-danger-text: #FECDD3;
+  --alert-success-text: #BBF7D0;
+  --alert-warning-text: #FDE68A;
+  --alert-info-text: #BFDBFE;
+}
+
+/* ==========================================================
+   SEMANTIC TYPE STYLES
+   ========================================================== */
+
+.tc-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg-primary);
+}
+
+.tc-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  color: var(--color-fg-primary);
+}
+
+.tc-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  color: var(--color-fg-primary);
+}
+
+.tc-h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--color-fg-primary);
+}
+
+.tc-body-lg {
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  color: var(--color-fg-secondary);
+}
+
+.tc-body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  color: var(--color-fg-secondary);
+}
+
+.tc-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  color: var(--color-fg-secondary);
+}
+
+.tc-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-fg-primary);
+}
+
+.tc-overline {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-brand-pink);
+}
+
+.tc-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-fg-primary);
+  background: var(--fill-2);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================
+   UTILITY — Dark surface reset
+   ========================================================== */
+
+.tc-surface {
+  background: var(--color-bg);
+  color: var(--color-fg-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================
+   LAYOUT — Sidebar shell (platform standard)
+
+   Usage:
+     <div class="tc-app-shell">
+       <aside class="tc-sidebar"> … </aside>
+       <div class="tc-content-column">
+         <header class="tc-header"> … </header>
+         <main class="tc-main"> … </main>
+       </div>
+     </div>
+   ========================================================== */
+
+.tc-app-shell {
+  display: flex;
+  justify-content: flex-start;      /* sidebar pinned to the left edge */
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* Opt-in centered variant — caps the layout at 1280px and centers it so
+   wide screens get equal gutters. Wrap the sidebar + content-column in
+   `.tc-layout-inner` AND add `.is-centered` to the shell. */
+.tc-app-shell.is-centered {
+  justify-content: center;
+}
+
+/* Inner layout — caps content at 1280px so wide screens get equal
+   gutters that show the decorative bg-circles. Place the sidebar +
+   content-column inside this. */
+.tc-layout-inner {
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  min-width: 0;
+}
+
+/* Decorative purple circles that sit BEHIND .tc-layout-inner on the
+   page background. Pure decoration — always `aria-hidden`.
+
+     <div class="tc-bg-circles" aria-hidden="true">
+       <div style="width:500px;height:500px;top:-120px;right:-80px;opacity:0.8"></div>
+       <div style="width:320px;height:320px;top:300px;right:200px;opacity:0.6"></div>
+       <div style="width:200px;height:200px;bottom:50px;right:80px;opacity:0.5"></div>
+     </div>
+*/
+.tc-bg-circles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.tc-bg-circles > div {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-bg-circle);   /* #180840 */
+}
+
+/* Sidebar — 220px fixed, never collapses on desktop.
+
+   Platform standard (Admin shell): a FROSTED translucent panel —
+   `rgba(16,2,53,0.40)` + `backdrop-filter: blur(24px) saturate(140%)`
+   over `.tc-bg-circles` so the decorative circles softly diffuse behind
+   it. This is the canonical look across all Tophhie Cloud admin apps.
+
+   Variants:
+   • default          → FROSTED translucent (this rule).
+   • `.is-nav`        → OPAQUE `#0E0130`. Use when there is no
+                        translucent backdrop behind the sidebar (frost
+                        is a no-op on a solid surface).
+   • `.is-transparent`→ Fully transparent, no blur. Legacy PDS pattern. */
+.tc-sidebar {
+  width: 220px;
+  min-width: 220px;
+  height: 100%;
+  background: var(--sidebar-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.tc-sidebar.is-nav {
+  background: var(--nav-solid);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.tc-sidebar.is-transparent {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.tc-sidebar-logo {
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+/* --- Sidebar brand block ----------------------------------------
+   The Admin-shell header of the sidebar. Canonical form: the full
+   Tophhie Cloud logo lockup (dot-mark + wordmark, one image) above an
+   optional role/environment subtitle. Add `.is-logo` for the stacked
+   logo layout, and swap the logo art per theme with the
+   `.tc-brand-logo--dark` / `.tc-brand-logo--light` helpers.
+
+   <div class="tc-sidebar-brand is-logo">
+     <img class="tc-brand-logo tc-brand-logo--dark"  src=".../logo-white-on-dark.png" alt="Tophhie Cloud">
+     <img class="tc-brand-logo tc-brand-logo--light" src=".../logo-colour-lg.png"     alt="Tophhie Cloud">
+     <span class="tc-sidebar-brand-sub">Admin Center</span>
+   </div>                                                            */
+.tc-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+/* Stacked logo variant — logo on its own line, subtitle beneath. */
+.tc-sidebar-brand.is-logo {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+.tc-brand-logo {
+  height: 30px;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
+.tc-brand-logo--light { display: none; }
+/* Explicit theme (also works on a subtree, matching the token overrides). */
+[data-theme="light"] .tc-brand-logo--dark  { display: none; }
+[data-theme="light"] .tc-brand-logo--light { display: block; }
+[data-theme="dark"]  .tc-brand-logo--dark  { display: block; }
+[data-theme="dark"]  .tc-brand-logo--light { display: none; }
+/* System preference: apps that never set data-theme follow the OS.
+   :root:not([data-theme]) so an explicit data-theme="dark" still wins. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .tc-brand-logo--dark  { display: none; }
+  :root:not([data-theme]) .tc-brand-logo--light { display: block; }
+}
+.tc-sidebar-brand-mark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(232,0,90,0.35));
+}
+.tc-sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1;
+}
+.tc-sidebar-brand-name {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-hi);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tc-sidebar-brand-sub {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  line-height: 1;
+}
+
+/* --- Sidebar status row ("online now" presence link) ------------
+   A full-width link directly under the brand block surfacing a live
+   count (online users, open incidents, pending items). Pulsing dot on
+   the left, count + label, trailing chevron.
+
+   <a class="tc-sidebar-status" href="/online">
+     <span class="tc-sidebar-status-dot"></span>
+     <span class="tc-sidebar-status-text"><b>0</b> online now</span>
+     <i data-lucide="chevron-right" class="tc-sidebar-status-chevron"></i>
+   </a>                                                              */
+.tc-sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+.tc-sidebar-status:hover { background: var(--fill-1); }
+.tc-sidebar-status-text { color: var(--text-dim); }
+.tc-sidebar-status-text b { color: var(--text-hi); font-weight: 700; }
+.tc-sidebar-status-chevron {
+  width: 13px; height: 13px;
+  margin-left: auto;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+/* Presence dot — solid core with an expanding ping ring. Add the
+   `.is-live` modifier (or default green) for an active state. */
+.tc-sidebar-status-dot {
+  position: relative;
+  width: 8px; height: 8px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+.tc-sidebar-status-dot.is-live { background: var(--green); }
+.tc-sidebar-status-dot.is-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--green);
+  animation: tc-ping 1.8s cubic-bezier(0,0,0.2,1) infinite;
+}
+
+.tc-sidebar-nav {
+  flex: 1;
+  padding: var(--space-3) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+.tc-sidebar-section-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-fg-tertiary);
+  padding: var(--space-4) var(--space-2) var(--space-1);
+}
+
+.tc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  background: transparent;          /* reset UA default on <button class="tc-nav-item"> */
+  border: 1px solid transparent;
+  cursor: pointer;
+  width: 100%;                      /* fill the sidebar slot when used on <button> */
+  text-align: left;
+  transition: background var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-fg-secondary);
+  text-decoration: none;
+}
+
+.tc-nav-item:hover {
+  background: var(--fill-1);
+}
+
+.tc-nav-item.active {
+  background: rgba(232, 0, 90, 0.12);
+  border-color: rgba(232, 0, 90, 0.20);
+  color: var(--color-fg-primary);
+  font-weight: 600;
+}
+
+.tc-nav-item.active .tc-nav-icon {
+  color: var(--color-brand-pink);
+}
+
+.tc-nav-icon {
+  color: var(--color-fg-tertiary);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tc-sidebar-footer {
+  padding: var(--space-3) var(--space-2);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+/* Content column — header + scrollable main */
+.tc-content-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header — 56px, frosted translucent bar that sits over scrolling
+   content. `bg-bg/60` + `backdrop-blur + saturate` matches the
+   Admin-shell treatment; sticky so it stays pinned as main scrolls. */
+.tc-header {
+  height: 56px;
+  min-height: 56px;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-5);
+  gap: var(--space-3);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tc-header-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-fg-primary);
+  flex: 1;
+}
+
+.tc-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+/* ==========================================================
+   BASE — Canonical html/body reset for Tophhie Cloud apps
+   Apply this (or equivalent) to every web app.
+   ========================================================== */
+
+/*
+  html, body, #root {
+    height: 100%;
+    background: var(--app-backdrop);        ← very slightly darker than --bg; used as html bg
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;            ← production base size (NOT 16px)
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    color-scheme: dark;
+  }
+*/
+
+/* Scrollbars — thin, minimal, matches dark surface */
+::-webkit-scrollbar           { width: 5px; height: 5px; }
+::-webkit-scrollbar-track     { background: transparent; }
+::-webkit-scrollbar-thumb     { background: var(--scroll-thumb); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
+
+/* Native select/input dark rendering */
+select, input[type="date"], input[type="number"] { color-scheme: dark; }
+select         { background-color: var(--surface-hi); color: var(--text-hi); }
+select option  { background-color: var(--surface-hi); color: var(--text-hi); }
+
+/* ==========================================================
+   ANIMATIONS
+   ========================================================== */
+
+@keyframes tc-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Used on the brand logomark pink dot — 2.4s slow pulse */
+@keyframes tc-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+  50%       { opacity: 0.5; box-shadow: 0 0 4px var(--accent); }
+}
+
+/* Loading spinner */
+@keyframes tc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Presence ping — expanding fading ring on the sidebar status dot */
+@keyframes tc-ping {
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Glass modal entrance — gentle overshoot, used by .tc-modal-in */
+@keyframes tc-modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+/* Apply to any element entering the view */
+.tc-animate-in {
+  animation: tc-fade-in 0.2s ease forwards;
+}
+
+/* Apply to glass modals / popovers for the brand entrance feel */
+.tc-modal-in {
+  animation: tc-modal-in var(--duration-modal) var(--ease-overshoot) forwards;
+}
+
+/* ==========================================================
+   LOGOMARK — 2×2 dot grid (compact brand identity)
+   Used in app headers, mobile screens, and loading states.
+
+   <div class="tc-logomark">
+     <div class="tc-dot-pink"></div>
+     <div class="tc-dot-purple"></div>
+   </div>
+   ========================================================== */
+
+.tc-logomark {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.tc-dot-pink {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: tc-pulse 2.4s ease infinite;
+}
+
+.tc-dot-purple {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-brand-purple);
+  align-self: end;
+  justify-self: end;
+}
+
+/* ==========================================================
+   LOADING SPINNER
+   ========================================================== */
+
+.tc-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid var(--fill-3);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: tc-spin 0.7s linear infinite;
+}
+
+.tc-spinner-sm {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+  border-color: rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-style: solid;
+  border-radius: 50%;
+  animation: tc-spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* ==========================================================
+   INPUTS — Production-confirmed style
+   Background: var(--fill-2) — NOT var(--surface)
+   ========================================================== */
+
+.tc-input {
+  padding: 8px 10px;
+  background: var(--fill-2);   /* ← confirmed from production */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-hi);
+  font-family: var(--sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out);
+  width: 100%;
+}
+
+.tc-input:focus {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-lo);
+}
+
+.tc-input::placeholder {
+  color: var(--text-dim);
+}
+
+.tc-input:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   TOGGLE SWITCH
+   ========================================================== */
+
+.tc-toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+  background: var(--fill-3);
+  border-color: var(--border-hi);
+}
+
+.tc-toggle[aria-checked="true"] {
+  background: var(--accent);
+  border-color: var(--accent-border);
+}
+
+.tc-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  transition: transform 0.2s;
+  display: block;
+}
+
+.tc-toggle[aria-checked="true"] .tc-toggle-thumb {
+  transform: translateX(16px);
+}
+
+/* ==========================================================
+   CARD — Elevated surface container
+   The standard content container: tables, detail panels, profile
+   headers, and any grouped content sit inside a .tc-card.
+
+   <div class="tc-card">
+     <div class="tc-card-header">
+       <span class="tc-card-title">Account Details</span>
+     </div>
+     … content …
+   </div>
+   ========================================================== */
+
+.tc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.tc-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tc-card-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-hi);
+}
+
+/* ==========================================================
+   DATA TABLE — Sticky header, alternating rows
+   ========================================================== */
+
+.tc-table-wrap {
+  flex: 1;
+  overflow: auto;
+}
+
+.tc-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.tc-table th {
+  padding: 9px 14px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-family: var(--sans);
+  transition: color var(--duration-fast);
+}
+
+.tc-table th:hover,
+.tc-table th.active { color: var(--accent); }
+
+/* Header row (non-sticky placement) */
+.tc-table thead tr {
+  background: var(--fill-1);
+  border-bottom: 1px solid var(--divider);
+}
+
+.tc-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--divider);
+  vertical-align: middle;
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--sans);            /* sans by default; opt cells into mono via .tc-code or font-family override */
+}
+
+.tc-table tr:last-child td { border-bottom: none; }
+.tc-table tbody tr { transition: background var(--duration-fast); }
+.tc-table tbody tr:hover td { background: var(--fill-1); }
+
+/* Toolbar above table (count, search, pagination, export) */
+.tc-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================
+   TOOLTIP — Portal-style dark tooltip
+   ========================================================== */
+
+.tc-tooltip {
+  background: var(--surface-hi);
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--text-hi);
+  white-space: normal;
+  max-width: 280px;
+  line-height: 1.6;
+  pointer-events: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+/* ==========================================================
+   MOBILE BLOCK — Desktop-only app guard
+   Place at top of body; hidden by default, shown <768px.
+   ========================================================== */
+
+.tc-mobile-block {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .tc-mobile-block {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--app-backdrop);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 28px;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+/* ==========================================================
+   MODAL
+   ========================================================== */
+
+.tc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: none;                  /* hidden until .open */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.tc-modal-overlay.open {
+  display: flex;
+}
+
+.tc-modal {
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-xl);
+  width: min(480px, 90vw);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  overflow: hidden;
+  animation: tc-modal-in var(--duration-modal) var(--ease-overshoot) forwards;
+}
+
+.tc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tc-modal-title {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-hi);
+}
+
+.tc-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tc-modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tc-modal-close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+.tc-modal-close:hover {
+  background: var(--fill-2);
+  color: var(--text-hi);
+}
+
+/* ==========================================================
+   SECTION LABEL — Used in sidebar form sections, settings
+   ========================================================== */
+
+.tc-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  font-family: var(--sans);
+}
+
+/* ==========================================================
+   PILLS — Compact tag / chip used in table cells and lists
+   ========================================================== */
+
+.tc-pill {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: var(--fill-3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.tc-pill-accent {
+  background: var(--accent-lo);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+/* ==========================================================
+   GLASS — Frosted-glass surface treatment
+   Production reference: cf-block.tophhie.cloud
+   Three pieces compose the look:
+     1. .tc-bg-illustration  — blurred brand illustration on body
+     2. .tc-glass / .tc-glass-modal — frosted card sitting on top
+     3. .tc-glass-fab        — floating frosted button
+   ========================================================== */
+
+/* Body backdrop — deep navy + blurred illustration through ::before.
+   Apply to <body> (or any full-viewport container) to recreate the
+   cf-block.tophhie.cloud canvas.
+
+   <body class="tc-bg-illustration"> … </body>
+*/
+.tc-bg-illustration {
+  /* Always the dark brand illustration canvas, so the fallback stays the
+     brand navy in BOTH themes (does not flip with --bg). */
+  background-color: #100235;
+  position: relative;
+  min-height: 100vh;
+}
+
+.tc-bg-illustration::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--bg-illustration-url, url('../assets/illustration-bg.png'));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(var(--blur-bg));                /* 4px — soft focus */
+  transform: scale(1.05);                       /* hides blur edge artefacts */
+  pointer-events: none;
+}
+
+/* Base frosted surface. Compose into any container that needs the look.
+   NOTE: backdrop-filter requires a translucent backdrop behind the element
+   (e.g. .tc-bg-illustration) to read as "frosted" — on a solid surface it
+   has no visible effect. */
+.tc-glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  backdrop-filter: blur(var(--blur-glass));
+  color: var(--text-hi);
+}
+
+/* Centered glass modal card — used for full-page block / error / empty
+   states (and any standalone confirmation surface).
+
+   <div class="tc-glass-modal tc-modal-in">
+     <img class="tc-glass-modal-logo" …>
+     <div class="tc-glass-modal-icon">…</div>
+     <h1 class="tc-glass-modal-title">…</h1>
+     <p  class="tc-glass-modal-body">…</p>
+   </div>
+*/
+.tc-glass-modal {
+  /* The modal always overlays the dark brand illustration, so it keeps a
+     dark frosted treatment with light text in BOTH themes — otherwise the
+     light-mode token flip makes the copy unreadable on the dark backdrop. */
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-xl);              /* 16px — Tailwind rounded-2xl */
+  box-shadow: var(--shadow-2xl);
+  width: 100%;
+  max-width: 32rem;                              /* matches Tailwind max-w-lg */
+  padding: 40px;                                 /* Tailwind p-10 */
+  color: var(--text-hi);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;                                     /* Tailwind space-y-6 */
+  font-family: var(--sans);
+}
+
+/* Container for the modal — fills the viewport, centers the card,
+   leaves room around the edges on small screens. */
+.tc-glass-modal-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+@media (min-width: 640px)  { .tc-glass-modal-stage { padding: 24px; } }
+@media (min-width: 768px)  { .tc-glass-modal-stage { padding: 32px; } }
+@media (min-width: 1024px) { .tc-glass-modal-stage { padding: 48px; } }
+
+.tc-glass-modal-logo {
+  display: block;
+  margin: 0 auto;
+  width: 180px;        /* Tailwind w-45 */
+  height: auto;
+}
+
+/* Big status glyph above the title (FA icon, SVG, or .tc-logomark wrapper). */
+.tc-glass-modal-icon {
+  font-size: 80px;
+  line-height: 1;
+  padding-bottom: 12px;
+}
+.tc-glass-modal-icon--danger  { color: #F87171; }     /* matches text-red-400 */
+.tc-glass-modal-icon--brand   { color: var(--accent); }
+.tc-glass-modal-icon--success { color: var(--green); }
+.tc-glass-modal-icon--warn    { color: #F59E0B; }
+
+.tc-glass-modal-title {
+  font-family: var(--display);
+  font-size: 20px;                              /* Tailwind text-xl */
+  font-weight: 700;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.tc-glass-modal-body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);              /* ≈ text-gray-300 on dark */
+}
+
+/* Floating frosted action button — fixed bottom-right.
+
+   <button class="tc-glass-fab" aria-label="Support">…</button>
+*/
+.tc-glass-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--blur-glass-sm));
+  backdrop-filter: blur(var(--blur-glass-sm));
+  box-shadow: var(--shadow-lg);
+  color: var(--text-hi);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+  font-size: 20px;
+}
+
+.tc-glass-fab:hover  { background: var(--glass-bg-hover); }
+.tc-glass-fab:active { transform: scale(0.97); }
+.tc-glass-fab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   BUTTONS — full variant set
+   Base + variants confirmed from PDS Admin production.
+
+   Variants: primary, secondary, danger, success, warning
+   Sizes:    default, .tc-btn-sm
+   ========================================================== */
+
+.tc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--duration-fast),
+              border-color var(--duration-fast),
+              opacity var(--duration-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tc-btn:disabled,
+.tc-btn[disabled] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+.tc-btn:active:not(:disabled) { transform: scale(0.97); }
+
+.tc-btn-primary   { background: var(--accent); color: #fff; }
+.tc-btn-primary:hover:not(:disabled)   { background: var(--color-brand-pink-light); }
+
+.tc-btn-secondary { background: var(--fill-2); border-color: var(--border-hi); color: var(--text); }
+.tc-btn-secondary:hover:not(:disabled) { background: var(--fill-3); }
+
+.tc-btn-danger    { background: var(--red-lo);   border-color: var(--red-border);   color: var(--red-text); }
+.tc-btn-danger:hover:not(:disabled)    { background: rgba(239,68,68,0.20); }
+
+.tc-btn-success   { background: var(--green-lo); border-color: var(--green-border); color: var(--green-text); }
+.tc-btn-success:hover:not(:disabled)   { background: rgba(34,197,94,0.20); }
+
+.tc-btn-warning   { background: var(--amber-lo); border-color: var(--amber-border); color: var(--amber-text); }
+.tc-btn-warning:hover:not(:disabled)   { background: rgba(245,158,11,0.20); }
+
+/* Deep-brand button — solid #100235. A high-contrast dark action that
+   reads on both themes (deep navy on light, deep navy on the lightened
+   dark surface). Use for a strong secondary CTA next to the pink primary. */
+.tc-btn-deep      { background: var(--brand-deep); color: #fff; border-color: rgba(255,255,255,0.12); }
+.tc-btn-deep:hover:not(:disabled)      { background: #1C0A52; }
+
+.tc-btn-sm { padding: 5px 12px; font-size: 12px; }
+
+/* ==========================================================
+   INPUTS — group + addon + mono variant
+   (.tc-input already defined above)
+   ========================================================== */
+
+.tc-input-mono { font-family: var(--mono); font-size: 12px; }
+
+/* Form label that sits ABOVE an input. */
+label.tc-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Input + trailing addon (e.g. domain suffix, units).
+
+   <div class="tc-input-group">
+     <input class="tc-input" placeholder="username" />
+     <span class="tc-input-addon">.tophhie.social</span>
+   </div>
+*/
+.tc-input-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--duration-fast);
+}
+.tc-input-group:focus-within {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-lo);
+}
+.tc-input-group .tc-input {
+  border: none;
+  border-radius: 0;
+  box-shadow: none !important;
+  flex: 1;
+}
+.tc-input-addon {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--fill-1);
+  border-left: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  white-space: nowrap;
+  font-family: var(--mono);
+  flex-shrink: 0;
+}
+
+/* ==========================================================
+   DETAIL TABLE — Key/value table for record details
+   (used on profile views, settings pages, audit detail).
+
+   <table class="tc-detail-table">
+     <tbody>
+       <tr><th>Handle</th><td>tophhie.cloud</td></tr>
+       <tr><th>DID</th>   <td><span class="tc-code">did:plc:…</span></td></tr>
+     </tbody>
+   </table>
+   ========================================================== */
+
+.tc-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tc-detail-table th {
+  padding: 10px 18px;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  width: 180px;                        /* fixed key column */
+  border-bottom: 1px solid var(--divider);
+  white-space: nowrap;
+  vertical-align: top;
+}
+.tc-detail-table td {
+  padding: 10px 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text);
+  border-bottom: 1px solid var(--divider);
+}
+.tc-detail-table tr:last-child th,
+.tc-detail-table tr:last-child td { border-bottom: none; }
+
+/* Inline code chip (used inside detail-table cells and elsewhere) */
+.tc-code {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-hi);
+  background: var(--fill-2);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  word-break: break-all;
+}
+
+/* ==========================================================
+   BADGES — Status pills with optional leading dot
+   Used in tables, profile headers, list rows.
+
+   <span class="tc-badge tc-badge-success">
+     <span class="tc-badge-dot"></span>Active
+   </span>
+   ========================================================== */
+
+.tc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--radius-full);
+  padding: 3px 9px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tc-badge-success { background: var(--green-lo); border: 1px solid rgba(34,197,94,0.25);  color: var(--green-text); }
+.tc-badge-danger  { background: var(--red-lo);   border: 1px solid rgba(239,68,68,0.25);  color: var(--red-text); }
+.tc-badge-warning { background: var(--amber-lo); border: 1px solid rgba(245,158,11,0.25); color: var(--amber-text); }
+.tc-badge-info    { background: var(--blue-lo);  border: 1px solid rgba(59,130,246,0.25); color: var(--blue-text); }
+
+.tc-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: currentColor;
+  display: inline-block;
+}
+
+/* Status pill for app header (slightly larger than .tc-badge, used to
+   show the signed-in user, environment, region, etc).
+
+   <span class="tc-status-pill tc-status-pill-success">
+     <span class="tc-badge-dot" style="width:6px;height:6px"></span>
+     chris.greenacre@tophhie.co.uk
+   </span>
+*/
+.tc-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 9999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--sans);
+}
+.tc-status-pill-success { background: rgba(34,197,94,0.10); border: 1px solid rgba(34,197,94,0.22); color: var(--green); }
+.tc-status-pill-danger  { background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.22); color: var(--red); }
+.tc-status-pill-warning { background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.22); color: var(--amber); }
+.tc-status-pill-info    { background: rgba(59,130,246,0.10); border: 1px solid rgba(59,130,246,0.22); color: var(--blue); }
+
+/* ==========================================================
+   ALERTS — Tinted callout for inline messaging
+   Use inside modal bodies, form sections, or above content.
+
+   <div class="tc-alert tc-alert-danger">
+     This action cannot be undone. …
+   </div>
+   ========================================================== */
+
+.tc-alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.tc-alert strong { font-weight: 600; color: inherit; }
+.tc-alert code {
+  font-family: var(--mono);
+  font-size: 12px;
+  opacity: 0.9;
+}
+.tc-alert a { color: inherit; text-decoration: underline; }
+
+.tc-alert-danger  { background: var(--red-lo);   border: 1px solid rgba(239,68,68,0.25);  color: var(--alert-danger-text); }
+.tc-alert-success { background: var(--green-lo); border: 1px solid rgba(34,197,94,0.25);  color: var(--alert-success-text); }
+.tc-alert-warning { background: var(--amber-lo); border: 1px solid rgba(245,158,11,0.25); color: var(--alert-warning-text); }
+.tc-alert-info    { background: var(--blue-lo);  border: 1px solid rgba(59,130,246,0.25); color: var(--alert-info-text); }
+
+/* ==========================================================
+   TOAST — Bottom-right notification stack
+   The container is the position anchor; toasts inside it animate
+   opacity + slide on `.show`.
+
+   <div class="tc-toast-container">
+     <div id="t1" class="tc-toast tc-toast-success">
+       <i data-lucide="check-circle"></i> Saved.
+     </div>
+   </div>
+
+   JS:  el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 3500);
+   ========================================================== */
+
+.tc-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.tc-toast {
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  min-width: 280px;
+}
+.tc-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.tc-toast-success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.30); color: var(--alert-success-text); }
+.tc-toast-danger  { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.30); color: var(--alert-danger-text); }
+.tc-toast-warning { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.30); color: var(--alert-warning-text); }
+.tc-toast-info    { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.30); color: var(--alert-info-text); }
+
+/* ==========================================================
+   DROPDOWN — Anchor-relative menu (e.g. row action menu)
+
+   <div class="tc-dropdown">
+     <button class="tc-btn tc-btn-secondary tc-btn-sm" onclick="toggle('m1')">
+       Actions <i data-lucide="chevron-down"></i>
+     </button>
+     <div class="tc-dropdown-menu" id="m1">
+       <a class="tc-dropdown-item" href="…">Go to Profile</a>
+       <div class="tc-dropdown-divider"></div>
+       <button class="tc-dropdown-item tc-dropdown-item-danger">Delete</button>
+     </div>
+   </div>
+   ========================================================== */
+
+.tc-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.tc-dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: var(--surface-hi);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-lg);
+  min-width: 160px;
+  z-index: 200;
+  box-shadow: var(--shadow-md);
+  display: none;
+  flex-direction: column;
+  padding: 4px;
+}
+.tc-dropdown-menu.open { display: flex; }
+
+.tc-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-fast);
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+.tc-dropdown-item:hover {
+  background: var(--fill-2);
+  color: var(--text-hi);
+}
+.tc-dropdown-item-danger { color: var(--red-text); }
+.tc-dropdown-item-danger:hover { background: rgba(239,68,68,0.10); }
+
+.tc-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+/* ==========================================================
+   PLACEHOLDER CHIPS — Insertable template tokens
+   Sits below a textarea; clicking inserts the token at the caret.
+
+   <div class="tc-placeholder-chips">
+     <span style="font-size:11px;color:var(--text-dim)">Insert:</span>
+     <button class="tc-placeholder-chip">{{handle}}</button>
+     <button class="tc-placeholder-chip">{{did}}</button>
+   </div>
+   ========================================================== */
+
+.tc-placeholder-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.tc-placeholder-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+  background: var(--fill-2);
+  border: 1px solid var(--border-hi);
+  color: var(--text);
+  transition: background var(--duration-fast), color var(--duration-fast);
+}
+.tc-placeholder-chip:hover {
+  background: var(--accent-lo);
+  border-color: var(--accent-border);
+  color: var(--text-hi);
+}
+
+/* ==========================================================
+   SIDEBAR FOOTER — User identity row
+   Goes inside .tc-sidebar-footer.
+
+   <div class="tc-user-row">
+     <div class="tc-avatar">C</div>
+     <div style="min-width:0">
+       <div class="tc-user-row-name">chris.greenacre</div>
+       <div class="tc-user-row-role">Admin</div>
+     </div>
+   </div>
+   ========================================================== */
+
+.tc-user-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  background: var(--fill-1);
+}
+.tc-user-row-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-hi);
+  font-family: var(--sans);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tc-user-row-role {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: var(--sans);
+}
+
+/* Gradient brand avatar (pink \u2192 purple). Use a single letter or
+   the .tc-logomark inside when there's no user-supplied avatar. */
+.tc-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--accent), var(--color-brand-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--sans);
+  flex-shrink: 0;
+}
+.tc-avatar-lg { width: 96px; height: 96px; font-size: 36px; }
+.tc-avatar-md { width: 48px; height: 48px; font-size: 18px; }
+
+/* ==========================================================
+   MOBILE NAV — hamburger + slide-over sidebar
+   ========================================================== */
+
+/* Overlay behind a slid-open sidebar on mobile. */
+.tc-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 499;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+}
+.tc-sidebar-overlay.open { display: block; }
+
+/* Hamburger button in the header. Visible only on mobile. */
+.tc-mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text-hi);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--duration-fast);
+  margin-right: 4px;
+}
+.tc-mobile-menu-btn:hover { background: var(--fill-2); }
+
+@media (max-width: 767px) {
+  /* Sidebar becomes an off-canvas slide-over */
+  .tc-sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    height: 100%;
+    z-index: 500;
+    transform: translateX(-220px);
+    transition: transform var(--duration-base) var(--ease-out);
+    background: var(--nav-solid);            /* opaque when slid over content */
+  }
+  .tc-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 8px 0 32px rgba(0,0,0,0.5);
+  }
+  .tc-mobile-menu-btn { display: flex; }
+  .tc-main   { padding: 16px; }
+  .tc-header { padding: 0 14px; }
+  .tc-detail-table th { width: 110px; font-size: 11px; }
+  .tc-detail-table th,
+  .tc-detail-table td { padding: 9px 14px; }
+  .tc-toast-container { bottom: 16px; left: 16px; right: 16px; }
+  .tc-toast { min-width: 0; }
+  .tc-toolbar { gap: 8px; }
+  .tc-hide-mobile { display: none !important; }
+}
+
+/* ==========================================================
+   PROFILE HEADER — Card with banner + overlapping avatar
+   (used on user profile views)
+
+   <div class="tc-card tc-profile-card">
+     <div class="tc-profile-banner">
+       <img src="banner.jpg" alt="">
+       <div class="tc-profile-banner-edge"></div>
+     </div>
+     <div class="tc-profile-content">
+       <img class="tc-profile-avatar" src="avatar.jpg" alt="">
+       <div class="tc-profile-name-row">
+         <h1 class="tc-profile-name">Chris Greenacre</h1>
+         <span class="tc-badge tc-badge-success"><span class="tc-badge-dot"></span>Active</span>
+       </div>
+       \u2026
+     </div>
+   </div>
+   ========================================================== */
+
+.tc-profile-card { overflow: visible; }
+
+.tc-profile-banner {
+  position: relative;
+  padding-bottom: min(25%, 200px);
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--surface-hi) 0%, var(--surface) 40%, var(--brand-deep) 100%);
+}
+.tc-profile-banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* The 4px pink\u2192purple accent strip under the banner. */
+.tc-profile-banner-edge {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--color-brand-purple));
+}
+
+.tc-profile-content {
+  padding: 0 24px 24px;
+  position: relative;
+}
+
+/* Overlaps the banner by 48px. */
+.tc-profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 4px solid var(--surface);
+  display: block;
+  margin-top: -48px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.tc-profile-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.tc-profile-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-hi);
+}
+
+.tc-profile-handle {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+.tc-profile-email {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.tc-profile-bio {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: 600px;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
+}
+
+/* Inline stats row inside profile header. */
+.tc-profile-stats {
+  display: flex;
+  gap: 20px;
+}
+.tc-profile-stat-value {
+  font-family: var(--display);
+  font-weight: 800;
+  color: var(--text-hi);
+  font-size: 15px;
+}
+.tc-profile-stat-label {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-left: 3px;
+}
+
+/* ==========================================================
+   TOOLBAR \u2014 row of title/count + actions above a card
+   ========================================================== */
+
+.tc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.tc-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================
+   UTILITIES
+   ========================================================== */
+
+.tc-text-hi    { color: var(--text-hi); }
+.tc-text       { color: var(--text); }
+.tc-text-dim   { color: var(--text-dim); }
+.tc-font-display { font-family: var(--display); }
+.tc-font-sans    { font-family: var(--sans); }
+.tc-font-mono    { font-family: var(--mono); }
+.tc-divider    { height: 1px; background: var(--border); }
+.tc-hide-mobile {}  /* sized only via @media block above */
+

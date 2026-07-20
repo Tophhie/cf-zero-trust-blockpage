@@ -1,7 +1,8 @@
 <script lang="ts">
+	import './tophhie-cloud.css';
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.png';
-	
+
 	let { children } = $props();
 </script>
 

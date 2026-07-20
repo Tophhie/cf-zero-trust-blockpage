@@ -1,60 +1,60 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <script lang="ts">
-	import { page } from "$app/state";
-	import { cubicOut } from "svelte/easing";
-	import { Config } from "../config";
-	import { slide } from "svelte/transition";
+	import { page } from '$app/state';
+	import { cubicOut } from 'svelte/easing';
+	import { Config } from '../config';
+	import { slide } from 'svelte/transition';
 
 	let showAddInfo = $state(false);
-	let detailButtonTxt = $derived(showAddInfo ? "Hide Info" : "More Info");
+	let detailButtonTxt = $derived(showAddInfo ? 'Hide Info' : 'More Info');
 
 	// Extract query params
-	let userEmail = $derived(page.url.searchParams.get("cf_user_email"));
-	let siteUrl = $derived(page.url.searchParams.get("cf_site_uri"));
-	let categories = $derived(page.url.searchParams.getAll("cf_request_category_names"));
-	let referer = $derived(page.url.searchParams.get("cf_referer"));
-	let ruleId = $derived(page.url.searchParams.get("cf_rule_id"));
-	let sourceIp = $derived(page.url.searchParams.get("cf_source_ip"));
-	let deviceId = $derived(page.url.searchParams.get("cf_device_id"));
-	let appNames = $derived(page.url.searchParams.get("cf_application_names"));
-	let filter = $derived(page.url.searchParams.get("cf_filter"));
-	let accountId = $derived(page.url.searchParams.get("cf_account_id"));
-	let queryId = $derived(page.url.searchParams.get("cf_query_id"));
-	let connId = $derived(page.url.searchParams.get("cf_connection_id"));
-	let reqId = $derived(page.url.searchParams.get("cf_request_id"));
+	let userEmail = $derived(page.url.searchParams.get('cf_user_email'));
+	let siteUrl = $derived(page.url.searchParams.get('cf_site_uri'));
+	let categories = $derived(page.url.searchParams.getAll('cf_request_category_names'));
+	let referer = $derived(page.url.searchParams.get('cf_referer'));
+	let ruleId = $derived(page.url.searchParams.get('cf_rule_id'));
+	let sourceIp = $derived(page.url.searchParams.get('cf_source_ip'));
+	let deviceId = $derived(page.url.searchParams.get('cf_device_id'));
+	let appNames = $derived(page.url.searchParams.get('cf_application_names'));
+	let filter = $derived(page.url.searchParams.get('cf_filter'));
+	let accountId = $derived(page.url.searchParams.get('cf_account_id'));
+	let queryId = $derived(page.url.searchParams.get('cf_query_id'));
+	let connId = $derived(page.url.searchParams.get('cf_connection_id'));
+	let reqId = $derived(page.url.searchParams.get('cf_request_id'));
 
 	// Build label/value pairs
 	let rawRows: [string, string | null][] = $derived([
-		["Date/Time", new Date().toLocaleString()],
-		["User Email", userEmail],
-		["Site", siteUrl],
-		["Categories", categories.length ? categories.join(", ") : null],
-		["Referer", referer],
-		["Rule ID", ruleId],
-		["Source IP", sourceIp],
-		["Device ID", deviceId],
-		["App", appNames],
-		["Filter", filter],
-		["Account ID", accountId],
-		["Query ID", queryId],
-		["Connection ID", connId],
-		["Request ID", reqId]
+		['Date/Time', new Date().toLocaleString()],
+		['User Email', userEmail],
+		['Site', siteUrl],
+		['Categories', categories.length ? categories.join(', ') : null],
+		['Referer', referer],
+		['Rule ID', ruleId],
+		['Source IP', sourceIp],
+		['Device ID', deviceId],
+		['App', appNames],
+		['Filter', filter],
+		['Account ID', accountId],
+		['Query ID', queryId],
+		['Connection ID', connId],
+		['Request ID', reqId]
 	]);
 
 	// Filter out empty/null values
-	let rows = $derived(rawRows.filter(([_, v]) => v !== null && String(v).trim() !== ""));
+	let rows = $derived(rawRows.filter(([, v]) => v !== null && String(v).trim() !== ''));
 
 	// Whether meaningful metadata (beyond Date/Time) is available
-	let metadataAvailable = $derived(rows.length > 0 && rows.some(([label]) => label !== "Date/Time"));
+	let metadataAvailable = $derived(
+		rows.length > 0 && rows.some(([label]) => label !== 'Date/Time')
+	);
 
 	function showAdditionalInfo() {
 		showAddInfo = !showAddInfo;
 	}
 
 	function sendBlockedRequestEmail(): void {
-		const subject = "Cloudflare Zero Trust - Blocked Request";
-		const body = rows.map(([key, value]) => `${key}: ${value}`).join("\n");
+		const subject = 'Cloudflare Zero Trust - Blocked Request';
+		const body = rows.map(([key, value]) => `${key}: ${value}`).join('\n');
 		const mailtoLink = `mailto:${Config.CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 		window.location.href = mailtoLink;
 	}
@@ -66,72 +66,182 @@
 	}
 </script>
 
-<div class="min-h-screen flex items-center justify-center text-gray-100 p-4 sm:p-6 md:p-8 lg:p-12">
+<svelte:head>
+	<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+	/>
+</svelte:head>
 
-	{#if Config.CONTACT_WEB}
+<!-- Glass Modal (block state) — Tophhie Cloud design system.
+     Anatomy: .tc-bg-illustration (on <body>) → .tc-glass-modal-stage →
+     .tc-glass-modal.tc-modal-in with logo + status icon + title + body. -->
+<div class="tc-glass-modal-stage">
+	<div class="tc-glass-modal tc-modal-in">
+		<img class="tc-glass-modal-logo" src={Config.HEADER_LOGO_URL} alt="Tophhie Cloud" id="Logo" />
+
+		<div>
+			<i class="fa fa-ban tc-glass-modal-icon tc-glass-modal-icon--danger" aria-hidden="true"></i>
+			<h1 class="tc-glass-modal-title">{Config.BLOCKED_HEADER}</h1>
+		</div>
+
+		{#if siteUrl}
+			<div class="blocked-url">
+				<p>{siteUrl}</p>
+			</div>
+		{/if}
+
+		<p class="tc-glass-modal-body">
+			{#if metadataAvailable}
+				{Config.BLOCKED_TEXT}
+			{:else}
+				{Config.BLOCKED_TEXT_NOMETA}
+			{/if}
+		</p>
+
+		{#if metadataAvailable}
+			<div class="blocked-actions">
+				<button class="more-info-toggle" onclick={showAdditionalInfo}>
+					{detailButtonTxt}
+					<i class="fa {showAddInfo ? 'fa-chevron-up' : 'fa-chevron-down'}" aria-hidden="true"></i>
+				</button>
+
+				<!-- Additional Information — inline within the card -->
+				{#if showAddInfo}
+					<div transition:slide={{ duration: 500, easing: cubicOut }}>
+						<hr class="more-info-divider" />
+						<dl class="detail-list">
+							{#each rows as [label, value] (label)}
+								<div class="detail-row">
+									<dt>{label}:</dt>
+									<dd>{value}</dd>
+								</div>
+							{/each}
+						</dl>
+					</div>
+				{/if}
+
+				<button class="tc-btn tc-btn-primary request-access-btn" onclick={sendBlockedRequestEmail}>
+					{Config.CONTACT_BUTTON_TXT}
+				</button>
+			</div>
+		{/if}
+	</div>
+</div>
+
+{#if Config.CONTACT_WEB}
 	<button
-		class="fixed bottom-6 right-6 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors"
-		style="cursor: pointer;"
+		class="tc-glass-fab"
 		onclick={goToSupportWebsite}
 		aria-label="Go to support website"
 		title="Go to support website"
 	>
-		<i class="fa fa-ticket fa-2x"></i>
+		<i class="fa fa-ticket" aria-hidden="true"></i>
 	</button>
-	{/if}
+{/if}
 
-	<div class="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl max-w-lg w-full p-10 space-y-6 text-gray-100 text-center">
-		<img
-			src={Config.HEADER_LOGO_URL}
-			height="100"
-			alt="Tophhie Cloud Logo"
-			id="Logo"
-			class="mx-auto w-45 h-auto"
-		/>
-		<div>
-			<i class="fa fa-ban pb-3" style="font-size:80px; color: #F87171;"></i>
-			<h1 class="text-xl font-bold">{Config.BLOCKED_HEADER}</h1>
-		</div>
-		{#if siteUrl}
-		<div class="border border-white/20 rounded-3xl overflow-hidden">
-			<div class="bg-white/10 px-4 py-3 text-center">
-				<p class="text-red-400 font-bold break-all">{siteUrl}</p>
-			</div>
-		</div>
-		{/if}
-		<p class="text-gray-300">
-			{#if metadataAvailable}
-			{Config.BLOCKED_TEXT}
-			{:else}
-			{Config.BLOCKED_TEXT_NOMETA}
-			{/if}
-		</p>
-		{#if metadataAvailable}
-		<button class="block w-full px-3 py-1.5 text-sm text-gray-300 hover:text-white rounded transition-colors flex items-center justify-center gap-1" style="cursor: pointer;" onclick={showAdditionalInfo}>
-			{detailButtonTxt}
-			<i class="fa {showAddInfo ? 'fa-chevron-up' : 'fa-chevron-down'}"></i>
-		</button>
+<style>
+	/* Blocked destination URL — a technical string, so it reads in mono
+	   inside a frosted sub-panel that echoes the glass card. */
+	.blocked-url {
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-2xl);
+		overflow: hidden;
+	}
+	.blocked-url p {
+		margin: 0;
+		background: rgba(255, 255, 255, 0.1);
+		padding: 12px 16px;
+		color: var(--red-text);
+		font-family: var(--mono);
+		font-size: 13px;
+		font-weight: 600;
+		text-align: center;
+		word-break: break-all;
+	}
 
-		<!-- Additional Information — inline within the card -->
-		{#if showAddInfo}
-		<div transition:slide={{ duration: 500, easing: cubicOut }}>
-			<hr class="border-white/20" />
-			<dl class="space-y-2 text-left mt-4 text-sm">
-				{#each rows as [label, value]}
-				<div class="sm:flex sm:justify-between">
-					<dt class="font-semibold text-gray-400 sm:w-32 sm:whitespace-nowrap">{label}:</dt>
-					<dd class="text-gray-200 break-all sm:text-right">{value}</dd>
-				</div>
-				{/each}
-			</dl>
-		</div>
-		{/if}
+	/* Actions group — sits as a single gap-24 child of the glass modal,
+	   with its own tighter internal rhythm. */
+	.blocked-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
 
-		<button class="block w-full px-3 py-1.5 text-sm bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-3xl transition-colors whitespace-nowrap" style="cursor: pointer;"
-			onclick={sendBlockedRequestEmail}
-		>
-			{Config.CONTACT_BUTTON_TXT}
-		</button>
-		{/if}
-	</div>
-</div>
+	.more-info-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		width: 100%;
+		padding: 6px 12px;
+		background: transparent;
+		border: none;
+		border-radius: var(--radius-md);
+		color: var(--text);
+		font-family: var(--sans);
+		font-size: 13px;
+		cursor: pointer;
+		transition: color var(--duration-fast) var(--ease-out);
+	}
+	.more-info-toggle:hover {
+		color: var(--text-hi);
+	}
+
+	.more-info-divider {
+		height: 1px;
+		margin: 0;
+		border: 0;
+		background: var(--border);
+	}
+
+	.detail-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-top: 16px;
+		text-align: left;
+		font-size: 13px;
+	}
+	.detail-row {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.detail-row dt {
+		font-family: var(--sans);
+		font-weight: 600;
+		color: var(--text-dim);
+	}
+	.detail-row dd {
+		margin: 0;
+		font-family: var(--mono);
+		font-size: 12px;
+		color: var(--text);
+		word-break: break-all;
+	}
+
+	@media (min-width: 640px) {
+		.detail-row {
+			flex-direction: row;
+			justify-content: space-between;
+			gap: 12px;
+		}
+		.detail-row dt {
+			min-width: 8rem;
+			white-space: nowrap;
+		}
+		.detail-row dd {
+			text-align: right;
+		}
+	}
+
+	/* Full-width pink primary CTA (design system: confirming action). */
+	.request-access-btn {
+		width: 100%;
+		justify-content: center;
+		padding: 10px 16px;
+		font-size: 14px;
+		font-weight: 600;
+	}
+</style>

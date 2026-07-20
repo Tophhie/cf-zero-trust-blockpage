@@ -1,52 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
-/* Global variables */
-:root {
-  --bg-color: #100235;
-  --primary-color: #2563eb;
-  --secondary-color: #1e293b;
-  --success-color: #16a34a;
-  --error-color: #dc2626;
-  --font-family: 'Inter', sans-serif;
-}
+/* Tophhie Cloud design tokens + components live in ./tophhie-cloud.css
+   (imported first in +layout.svelte). This file only wires the block page
+   into that system: it points the frosted illustration backdrop at the
+   hosted asset and sets the base body font. */
 
-/* Global body styles */
 body {
-  font-family: var(--font-family);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Blurred background image via pseudo-element.
-   backdrop-filter on body does not blur its own background-image. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url('https://public-blob.tophhie.cloud/logos/illustration.png');
-  background-size: cover;
-  background-position: center;
-  filter: blur(4px);
-  transform: scale(1.05); /* Prevents blur edge artifacts */
-  z-index: -1;
+	/* .tc-bg-illustration reads this for its blurred ::before backdrop. */
+	--bg-illustration-url: url('https://public-blob.tophhie.cloud/logos/illustration.png');
+	font-family: var(--sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* Mobile optimizations */
 @media (max-width: 640px) {
-  /* Improve tap targets on mobile */
-  a, button {
-    min-height: 44px;
-    min-width: 44px;
-  }
+	/* Improve tap targets on mobile */
+	a,
+	button {
+		min-height: 44px;
+		min-width: 44px;
+	}
 
-  /* Prevent text from being too small on iOS */
-  body {
-    font-size: 16px;
-  }
+	/* Prevent text from being too small on iOS */
+	body {
+		font-size: 16px;
+	}
 }
 
 /* Ensure links are easily tappable */
 a {
-  -webkit-tap-highlight-color: rgba(37, 99, 235, 0.3);
+	-webkit-tap-highlight-color: var(--accent-lo);
 }
